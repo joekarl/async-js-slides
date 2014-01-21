@@ -289,8 +289,8 @@ var async = require('async');
 app.get('/complicatedTask', function(req, res, next){
     async.waterfall([
         getDbRow,
-        useDbRowToCalculateSomething(dbRow),
-        insertValueIntoDb(calculatedValue)
+        useDbRowToCalculateSomething,
+        insertValueIntoDb
     ], function(err, result) {
         if (err) next(err);
         res.send(200, "Finished request");
