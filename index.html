@@ -200,12 +200,12 @@ app.get('/complicatedTask', function(req, res, next){
 });
 ```
 ---
-##Say we want to add a new task, we just add the new task
+##What if we want to do those tasks in parallel?
 ```javascript
 var async = require('async');
 
 app.get('/complicatedTask', function(req, res, next){
-    async.series([
+    async.parallel([
         doAsyncTask1,
         doAsyncTask2,
         doAsyncTask3,
@@ -218,7 +218,7 @@ app.get('/complicatedTask', function(req, res, next){
 });
 ```
 ---
-##What if we want to do those tasks in parallel?
+##Say we want to add a new task, we just add the new task
 ```javascript
 var async = require('async');
 
@@ -258,8 +258,6 @@ app.get('/complicatedTask', function(req, res, next){
 });
 ```
 ---
-#More complicated things
----
 ##Parallel tasks that consist of tasks performed in series
 ```javascript
 var async = require('async');
@@ -267,16 +265,16 @@ var async = require('async');
 app.get('/complicatedTask', function(req, res, next){
     async.parallel([
         async.apply(
-            async.series([
+            async.series, [
                 doAsyncTask1,
                 doAsyncTask2,
-            ])
+            ]
         ),
         async.apply(
-            async.series([
+            async.series, [
                 doAsyncTask3,
                 doAsyncTask4
-            ])
+            ]
         )
     ], function(err, result) {
         if (err) next(err);
