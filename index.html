@@ -291,9 +291,9 @@ app.get('/complicatedTask', function(req, res, next){
         getDbRow,
         useDbRowToCalculateSomething,
         insertValueIntoDb
-    ], function(err, result) {
+    ], function(err, insertId) {
         if (err) next(err);
-        res.send(200, "Finished request");
+        res.send(200, "Finished request: New record created with id: " + insertId);
     });
 });
 
@@ -310,8 +310,8 @@ function useDbRowToCalculateSomething(dbRow, callback) {
 }
 
 function insertValueIntoDb(calculatedValue, callback) {
-    db.insert(sql, values, function(err) {
-        callback(err);
+    db.insert(sql, values, function(err, result) {
+        callback(err, result.insertId);
     });
 }
 ```
@@ -328,7 +328,12 @@ app.get('/complicatedTask', function(req, res, next){
         doAsyncTask4
     ], function(err, result) {
         if (err) next(err);
-        console.log(result); // [task1Return, task2Return, task3Return, task4Return]
+        console.log(result); // [
+                             //   task1Return, 
+                             //   task2Return, 
+                             //   task3Return, 
+                             //   task4Return
+                             // ]
         res.send(200, "Finished request");
     });
 });
@@ -351,7 +356,7 @@ app.get('/complicatedTask', function(req, res, next){
                              //     val2: task2Return,
                              //     val3: task3Return,
                              //     val4: task4Return
-                             //  }
+                             // }
         res.send(200, "Finished request");
     });
 });
